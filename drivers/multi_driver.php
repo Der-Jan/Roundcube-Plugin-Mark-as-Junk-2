@@ -30,7 +30,7 @@ class markasjunk2_multi_driver
         // Define the driver list in the correct order for the mark as spam action
         // We always want the original message to be processed by cmd_learn so when marking as
         // spam cmd_learn should be run first. edit_headers can then alter the message
-        $this->drivers = array('sa_blacklist','cmd_learn');
+        $this->drivers = array('amavis_blacklist','cmd_learn');
         $this->_call_drivers($uids, true);
     }
 
@@ -40,7 +40,7 @@ class markasjunk2_multi_driver
         // We always want the original message to be processed by cmd_learn so when marking as
         // ham edit_headers should be run first, restoring the message to normal then cmd_learn
         // can be run
-        $this->drivers = array('sa_blacklist', 'cmd_learn');
+        $this->drivers = array('amavis_blacklist', 'cmd_learn');
         $this->_call_drivers($uids, false);
     }
 
