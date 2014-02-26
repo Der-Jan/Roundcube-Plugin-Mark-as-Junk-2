@@ -80,9 +80,20 @@ class markasjunk2_amavis_blacklist
 				$wb = $res_array['wb'];
 			}
 			
-			if (!$wb || (!$spam && preg_match('/^([BbNnFf])[ ]*\z/', $wb ) ) || ($spam && preg_match('/^([WwYyTt])[ ]*\z/', $wb ))) {
-				$newwb = 'w';
-				if ($spam) $newwb = 'b';
+			if (!$wb || (!$spam && preg_match('/^([BbNnFf0-9])[ ]*\z/', $wb ) ) || ($spam && preg_match('/^([WwYyTt0-9])[ ]*\z/', $wb ))) {
+				if ($spam) {
+					if ($wb && is_numeric($wb)) {
+						$newwb = $wb; 
+					} else {
+						$newwb = 0;
+					}
+					$newwb += 5;
+					if ($newwb > 15) {
+						$newwb = 'b';
+					}
+				} else {
+					$newwb = 'w';
+				}
 				if ($wb) {
 					$sql_result = $db->query('UPDATE wblist SET wb = ? WHERE sid = ? AND rid = ?',
 						$newwb, $sid, $rid);
